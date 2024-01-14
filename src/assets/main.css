@@ -1,0 +1,87 @@
+@import "./base.css";
+
+/* #app {
+  margin: 0 auto;
+  padding: 2rem;
+  font-weight: normal;
+} */
+
+/* app */
+
+#app {
+  display: flex;
+  background-color: #f0f2f5;
+  height: 100vh;
+  color: rgba(0, 0, 0, 0.65);
+  padding: 20px;
+}
+/* 左侧导航 */
+
+.app-left {
+  width: 120px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 20px 27px rgba(0, 0, 0, 0.05);
+  position: fixed;
+  left: 0;
+  z-index: 99;
+  padding: 0 10px 20px 10px;
+  margin-left: 20px;
+  height: calc(100vh - 40px);
+  overflow: auto;
+}
+
+.app-left-top {
+  position: fixed;
+  background-color: #fff;
+  z-index: 10;
+  padding-top: 20px;
+}
+
+.app-left-top .ant-divider {
+  margin-bottom: 12px;
+}
+
+.app-left .app-left-list {
+  margin-top: 123px;
+}
+
+.app-left .ant-list-item-meta-title {
+  display: flex;
+  justify-content: center;
+}
+
+.app-left .ant-list-item {
+  padding: 12px 0;
+}
+
+/* 右侧内容 */
+.app-right {
+  display: flex;
+  flex-direction: column;
+  flex: auto;
+  flex-shrink: 1;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  position: relative;
+  height: calc(100vh - 20px);
+  margin-left: 140px;
+}
+
+.app-right-top {
+  width: 100%;
+  border-radius: 12px;
+  height: calc(100vh - 210px);
+  background-color: #fff;
+}
+
+.app-right-bottom {
+  margin-top: 20px;
+  width: 100%;
+  padding: 16px;
+  height: 150px;
+  border-radius: 12px;
+  overflow-y: auto;
+  background-color: #fff;
+  box-shadow: 0 20px 27px rgba(0, 0, 0, 0.05);
+}
