@@ -112,6 +112,7 @@
   <div class="app-right">
     <div class="app-right-top">top</div>
     <div class="app-right-bottom">
+      <a-button type="primary" @click="getLogs">获取日志</a-button>
       <div>33333</div>
       <div>33333</div>
       <div>33333</div>
@@ -130,6 +131,9 @@
 <script setup>
 import Icon from "@ant-design/icons-vue";
 import { ref } from "vue";
+
+import { initWebSocket, sendWebSocket } from "../src/utils/websocket";
+
 import {
   apiGetGroupList,
   apiGetAllBrowserList,
@@ -140,6 +144,10 @@ const selectedValue = ref("");
 const selectDataList = ref([]);
 const browserDataList = ref([]);
 const ellipsis = ref(true);
+
+const courseTopic = ref("");
+const courseGrowth = ref("");
+const todayHaul = ref("");
 
 // 获取下拉列表的值
 function getGroupListData() {
@@ -189,5 +197,29 @@ getBrowserList("");
 // 切换下拉项
 const handleChange = (value) => {
   getBrowserList(value);
+};
+
+//连接设备
+function connectMsg() {
+  // 定义服务器地址 例如
+  const toIp = `ws://192.168.50.50:8822/websocket/ipad/${roomId.value}`;
+  initWebSocket(toIp);
+}
+connectMsg();
+
+// 发送消息给后端
+const getLogs = () => {
+  // 要发送的数据  和后端定义格式
+  const harvestData = {
+    HandlerType: "COURSEREFLECT",
+    topicReflect: courseTopic.value,
+    growReflect: courseGrowth.value,
+    harvest: todayHaul.value,
+    teacher: "李老师",
+  };
+
+  console.log("提交反思与收获数据", harvestData);
+  // 发送消息给后端
+  sendWebSocket(harvestData);
 };
 </script>
