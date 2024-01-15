@@ -48,7 +48,7 @@
                     </svg>
                   </template>
                 </icon>
-                <icon v-else>
+                <icon class="activeIcon" v-else>
                   <template #component>
                     <svg
                       t="1705225930636"

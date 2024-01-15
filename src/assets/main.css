@@ -67,7 +67,7 @@
       opacity: 1.0;
     }
   }
-  .ant-list-item-meta-title {
+  .ant-list-item-meta-title .activeIcon {
     animation: twinkle 1s;
     animation-iteration-count: infinite;
   }
