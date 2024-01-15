@@ -55,6 +55,23 @@
   padding: 12px 0;
 }
 
+/*闪烁动画*/
+ @keyframes twinkle {
+    from {
+      opacity: 1.0;
+    }
+    50% {
+      opacity: 0.1;
+    }
+    to {
+      opacity: 1.0;
+    }
+  }
+  .ant-list-item-meta-title {
+    animation: twinkle 1s;
+    animation-iteration-count: infinite;
+  }
+
 /* 右侧内容 */
 .app-right {
   display: flex;

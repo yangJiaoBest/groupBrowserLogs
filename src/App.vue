@@ -202,7 +202,7 @@ const handleChange = (value) => {
 //连接设备
 function connectMsg() {
   // 定义服务器地址 例如
-  const toIp = `ws://192.168.50.50:8822/websocket/ipad/${roomId.value}`;
+  const toIp = `ws://192.168.50.50:8822/websocket/ipad`;
   initWebSocket(toIp);
 }
 connectMsg();
