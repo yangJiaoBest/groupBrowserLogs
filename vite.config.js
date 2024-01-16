@@ -13,13 +13,14 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
-  server: {
-    proxy: {
-      '/api': { // 将/api路由转发到指定地址
-        target: 'http://example.com', // 设置目标服务器地址
-        changeOrigin: true, // 支持跨域
-        rewrite: (path) => path.replace(/^\/api/, '') // 去除URL前面的'/api'部分
-      }
-    }
-  }
+  base: './', // 这里更改打包相对绝对路径
+  // server: {
+  //   proxy: {
+  //     '/': { // 将/api路由转发到指定地址
+  //       target: 'http://example.com', // 设置目标服务器地址
+  //       changeOrigin: true, // 支持跨域
+  //       rewrite: (path) => path.replace(/^\/api/, '') // 去除URL前面的'/api'部分
+  //     }
+  //   }
+  // }
 })

@@ -56,21 +56,21 @@
 }
 
 /*闪烁动画*/
- @keyframes twinkle {
-    from {
-      opacity: 1.0;
-    }
-    50% {
-      opacity: 0.1;
-    }
-    to {
-      opacity: 1.0;
-    }
+@keyframes twinkle {
+  from {
+    opacity: 1;
   }
-  .ant-list-item-meta-title .activeIcon {
-    animation: twinkle 1s;
-    animation-iteration-count: infinite;
+  50% {
+    opacity: 0.1;
   }
+  to {
+    opacity: 1;
+  }
+}
+.activeIcon .ant-list-item-meta-title {
+  animation: twinkle 1s;
+  animation-iteration-count: infinite;
+}
 
 /* 右侧内容 */
 .app-right {

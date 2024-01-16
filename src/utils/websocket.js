@@ -1,3 +1,4 @@
+import { ref } from "vue";
 let websocket; // 用于存储实例化后websocket
 let rec; // 断线重连后，延迟5秒重新创建WebSocket连接  rec用来存储延迟请求的代码
 let lockReconnect = false;
@@ -5,6 +6,7 @@ let lockReconnect = false;
 // 创建websocket
 function createWebSocket(wsUrl) {
   console.log("websocket==================");
+  console.log(vue.prototype.$abc)
   // 判断当前浏览器是否支持WebSocket
   if ("WebSocket" in window) {
     console.log("当前浏览器支持 WebSocket");
@@ -26,10 +28,10 @@ function createWebSocket(wsUrl) {
 }
 
 // 初始化websocket
-function initWebSocket(wsUrl) {
+function initWebSocket(wsUrl, browserDataList) {
   websocket = new WebSocket(wsUrl);
   console.log("websocket:", websocket);
-
+  console.log(browserDataList);
   websocket.onopen = function () {
     websocketOpen();
   };
@@ -82,12 +84,17 @@ function websocketOnmessage(e) {
   if (data.code === 200 || data.code === 0) {
     console.log(data);
     // todo 成功后的相应处理 
+    // 如果 user_id
+    user_list[data.user_id] = true
+
+
+
   } else {
     console.log("error", data.msg);
     // 延时5秒后刷新页面
     setTimeout(() => {
       location.reload();
-    }, 1000);
+    }, 5000);
   }
 }
 
@@ -96,7 +103,7 @@ function websocketOnmessage(e) {
 // 关闭
 function websocketClose(e) {
   console.log(e);
-  lockReconnect = true; // 修改连接状态
+  lockReconnect = false; // 修改连接状态
 }
 
 // 数据发送
@@ -104,14 +111,6 @@ function websocketSend(data) {
   console.log("发送的数据", data, JSON.stringify(data));
   if (websocket && lockReconnect) { // 检查连接状态
     websocket.send(JSON.stringify(data));
-    // ws.send(
-    //   JSON.stringify({
-    //     id: new Date().getTime(),
-    //     msg: _msg,
-    //     curentTime: new Date().getTime(),
-    //     username,
-    //   })
-    // );
   } else {
     console.log('请连接!');
   }

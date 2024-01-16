@@ -26,7 +26,11 @@
       <a-list item-layout="horizontal" :data-source="browserDataList">
         <template #renderItem="{ item }">
           <a-list-item>
-            <a-list-item-meta>
+            <a-list-item-meta
+              :class="{ activeIcon: isActive && item.user_id === 'jd9klhi' }"
+              :data-id="item.user_id"
+              @click="handelClick"
+            >
               <template #title>
                 <icon v-if="item.browserActive">
                   <template #component>
@@ -131,7 +135,7 @@
 <script setup>
 import Icon from "@ant-design/icons-vue";
 import { ref } from "vue";
-
+import Vue from 'vue'
 import { initWebSocket, sendWebSocket } from "../src/utils/websocket";
 
 import {
@@ -148,7 +152,8 @@ const ellipsis = ref(true);
 const courseTopic = ref("");
 const courseGrowth = ref("");
 const todayHaul = ref("");
-
+const isActive = ref(false);
+const user_list = ref({})
 // 获取下拉列表的值
 function getGroupListData() {
   apiGetGroupList()
@@ -159,7 +164,7 @@ function getGroupListData() {
     })
     .catch((error) => {});
 }
-
+Vue.prototype.$abc=1900
 getGroupListData();
 
 // 获取浏览器列表
@@ -175,15 +180,17 @@ function getBrowserList(group_id) {
               const activeList = response.data.list.map(
                 ({ user_id }) => user_id
               );
-
+              
               // 判断dataList中有的user_id是否在activeList中,
               // 如果在, 则添加字段 browserActive 为 true, 否则是 false
               const newDataList = dataList.map(({ user_id, ...items }) => ({
                 ...items,
+                user_id,
                 browserActive: !activeList.includes(user_id),
               }));
 
               browserDataList.value = newDataList;
+              console.log(newDataList);
             }
           })
           .catch((error) => {});
@@ -193,7 +200,6 @@ function getBrowserList(group_id) {
 }
 
 getBrowserList("");
-
 // 切换下拉项
 const handleChange = (value) => {
   getBrowserList(value);
@@ -202,10 +208,12 @@ const handleChange = (value) => {
 //连接设备
 function connectMsg() {
   // 定义服务器地址 例如
-  const toIp = `ws://192.168.50.50:8822/websocket/ipad`;
-  initWebSocket(toIp);
+  const toIp = `ws://http://127.0.0.1:/api/v1/browser/local-active`;
+  initWebSocket(toIp, browserDataList);
 }
-connectMsg();
+// connectMsg();
+
+// 根据 api 返回值,得到需要闪烁的 user_id, 然后追加 class
 
 // 发送消息给后端
 const getLogs = () => {
@@ -221,5 +229,13 @@ const getLogs = () => {
   console.log("提交反思与收获数据", harvestData);
   // 发送消息给后端
   sendWebSocket(harvestData);
+};
+
+const handelClick = () => {
+  console.log("鼠标左键点击图标");
+  // 点击鼠标左键,取消图标闪烁
+  isActive.value = false;
+
+  // todo 发送数据到后端
 };
 </script>
