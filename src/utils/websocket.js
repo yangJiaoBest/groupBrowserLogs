@@ -6,15 +6,15 @@ let lockReconnect = false;
 // 创建websocket
 function createWebSocket(wsUrl) {
   console.log("websocket==================");
-  console.log(vue.prototype.$abc)
+
   // 判断当前浏览器是否支持WebSocket
-  if ("WebSocket" in window) {
-    console.log("当前浏览器支持 WebSocket");
-  } else if ("MozWebSocket" in window) {
-    console.log("当前浏览器支持 MozWebSocket");
-  } else {
-    console.log("当前浏览器不支持 WebSocket");
-  }
+  // if ("WebSocket" in window) {
+  //   console.log("当前浏览器支持 WebSocket");
+  // } else if ("MozWebSocket" in window) {
+  //   console.log("当前浏览器支持 MozWebSocket");
+  // } else {
+  //   console.log("当前浏览器不支持 WebSocket");
+  // }
 
 
   try {
@@ -28,12 +28,12 @@ function createWebSocket(wsUrl) {
 }
 
 // 初始化websocket
-function initWebSocket(wsUrl, browserDataList) {
+function initWebSocket(wsUrl) {
   websocket = new WebSocket(wsUrl);
   console.log("websocket:", websocket);
-  console.log(browserDataList);
   websocket.onopen = function () {
-    websocketOpen();
+    console.log("连接成功");
+    lockReconnect = true; // 修改连接状态
   };
 
   // 接收信息
@@ -45,16 +45,6 @@ function initWebSocket(wsUrl, browserDataList) {
   websocket.onerror = function () {
     console.log("WebSocket连接发生错误");
     reConnect(wsUrl); // 连接错误 需要重连
-  };
-
-  websocket.onclose = function (e) {
-    websocketClose(e);
-  };
-
-  //监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
-  window.onbeforeunload = function () {
-    websocket.close();
-    console.log('guanbi');
   };
 }
 
@@ -69,12 +59,6 @@ let reConnect = (wsUrl) => {
   }, 5000);
 };
 
-
-// 创建连接
-function websocketOpen() {
-  console.log("连接成功");
-  lockReconnect = true; // 修改连接状态
-}
 
 // 数据接收
 function websocketOnmessage(e) {
@@ -96,14 +80,6 @@ function websocketOnmessage(e) {
       location.reload();
     }, 5000);
   }
-}
-
-
-
-// 关闭
-function websocketClose(e) {
-  console.log(e);
-  lockReconnect = false; // 修改连接状态
 }
 
 // 数据发送
@@ -129,18 +105,8 @@ function sendWebSocket(data) {
   }
 }
 
-
-// 关闭
-let closeWebSocket = () => {
-  if (websocket) {
-    websocket.close();
-    console.log('设备已关闭');
-  }
-};
-
 export {
   initWebSocket,
   sendWebSocket,
   createWebSocket,
-  closeWebSocket,
 };

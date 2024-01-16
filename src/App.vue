@@ -27,9 +27,9 @@
         <template #renderItem="{ item }">
           <a-list-item>
             <a-list-item-meta
-              :class="{ activeIcon: isActive && item.user_id === 'jd9klhi' }"
+              :class="{ activeIcon: item.isActive }"
               :data-id="item.user_id"
-              @click="handelClick"
+              @click="handelClick(item)"
             >
               <template #title>
                 <icon v-if="item.browserActive">
@@ -134,8 +134,7 @@
 
 <script setup>
 import Icon from "@ant-design/icons-vue";
-import { ref } from "vue";
-import Vue from 'vue'
+import { ref, reactive } from "vue";
 import { initWebSocket, sendWebSocket } from "../src/utils/websocket";
 
 import {
@@ -152,8 +151,8 @@ const ellipsis = ref(true);
 const courseTopic = ref("");
 const courseGrowth = ref("");
 const todayHaul = ref("");
-const isActive = ref(false);
-const user_list = ref({})
+
+const user_list = ref({});
 // 获取下拉列表的值
 function getGroupListData() {
   apiGetGroupList()
@@ -164,7 +163,6 @@ function getGroupListData() {
     })
     .catch((error) => {});
 }
-Vue.prototype.$abc=1900
 getGroupListData();
 
 // 获取浏览器列表
@@ -180,14 +178,17 @@ function getBrowserList(group_id) {
               const activeList = response.data.list.map(
                 ({ user_id }) => user_id
               );
-              
+
               // 判断dataList中有的user_id是否在activeList中,
               // 如果在, 则添加字段 browserActive 为 true, 否则是 false
-              const newDataList = dataList.map(({ user_id, ...items }) => ({
-                ...items,
-                user_id,
-                browserActive: !activeList.includes(user_id),
-              }));
+              const newDataList = dataList.map(
+                ({ user_id, ...items }, index) => ({
+                  ...items,
+                  user_id,
+                  browserActive: !activeList.includes(user_id),
+                  isActive: index === 0 ? true : false,
+                })
+              );
 
               browserDataList.value = newDataList;
               console.log(newDataList);
@@ -231,10 +232,10 @@ const getLogs = () => {
   sendWebSocket(harvestData);
 };
 
-const handelClick = () => {
+const handelClick = (item) => {
   console.log("鼠标左键点击图标");
   // 点击鼠标左键,取消图标闪烁
-  isActive.value = false;
+  item.isActive = false;
 
   // todo 发送数据到后端
 };
