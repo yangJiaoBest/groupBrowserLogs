@@ -10,6 +10,9 @@ let request = axios.create({
   timeout: 5000
 })
 
+axios.defaults.headers.post['Content-Type'] = 'application/json; charset=utf-8';
+axios.defaults.headers.get['Content-Type'] = 'application/json; charset=utf-8';
+
 //响应拦截器
 request.interceptors.response.use((response) => {
   return response.data;

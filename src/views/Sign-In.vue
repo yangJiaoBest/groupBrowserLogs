@@ -24,14 +24,14 @@
                 Enter your username and password to sign in
               </h5>
 
-              <a-form>
+              <a-form @submit="handleSubmit">
                 <a-form-item
                   label="用户名"
                   :colon="false"
                   v-bind="validateInfos.username"
                 >
                   <a-input
-                    placeholder="用户名"
+                    placeholder="请输入用户名"
                     v-model:value="modelRef.username"
                   />
                 </a-form-item>
@@ -42,7 +42,7 @@
                 >
                   <a-input
                     type="password"
-                    placeholder="密码"
+                    placeholder="请输入密码"
                     v-model:value="modelRef.password"
                   />
                 </a-form-item>
@@ -54,7 +54,6 @@
                     html-type="submit"
                     size="large"
                     class="login-form-button"
-                    @click="onSubmit"
                     >SIGN IN</a-button
                   >
                 </a-form-item>
@@ -80,16 +79,7 @@
 <script setup>
 import { reactive, toRaw } from "vue";
 import { Form, notification } from "ant-design-vue";
-import { apiLogin } from "../api/index";
-
-const [api, contextHolder] = notification.useNotification();
-
-const openNotification = (placement) => {
-  api.error({
-    message: "账号或者密码错误,请重新尝试!",
-    placement,
-  });
-};
+import axios from "axios";
 
 const useForm = Form.useForm;
 
@@ -117,25 +107,22 @@ const { validate, validateInfos } = useForm(modelRef, rulesRef, {
   onValidate: (...args) => console.log(...args),
 });
 
-const onSubmit = () => {
+const handleSubmit = () => {
   validate()
-    .then(() => {
-      console.log(toRaw(modelRef));
-      const data = toRaw(modelRef);
-      apiLogin(data)
-        .then((response) => {
-          if (response.code == 0) {
-            // 登录成功以后,跳转到首页
-            localStorage.setItem("token", "login-success");
-            window.location.href = "/index";
-          }
-        })
-        .catch((error) => {
-          localStorage.clear();
-        });
+    .then((res) => {
+      try {
+        let response = axios.post("/meeting/custom/login", data);
+        if (response.data.code == 0) {
+          // 登录成功以后,跳转到首页
+          localStorage.setItem("token", "login-success");
+          window.location.href = "/index";
+        }
+      } catch (err) {
+        console.log(err);
+        alert("账号或者密码错误,请重新尝试！");
+        localStorage.clear();
+      }
     })
-    .catch((err) => {
-      openNotification();
-    });
+    .catch((err) => {});
 };
 </script>

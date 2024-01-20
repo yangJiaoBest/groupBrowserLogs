@@ -24,12 +24,3 @@ export function apiGetBrowserStatus() {
     method: 'get',
   });
 }
-
-// 登录接口
-export function apiLogin() {
-  return request({
-    url: '登录地址',
-    method: ' post',
-    data,
-  });
-}
