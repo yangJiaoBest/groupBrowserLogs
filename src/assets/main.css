@@ -1,24 +1,23 @@
 @import "./base.css";
-
-/* #app {
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
-} */
-
 /* app */
 
 #app {
   display: flex;
-  background-color: #f0f2f5;
+  flex-direction: column;
+  width: 100%;
+  background-color: #fff;
   height: 100vh;
   color: rgba(0, 0, 0, 0.65);
-  padding: 20px;
+  padding: 10px;
+}
+
+#app .ant-layout {
+  background-color: #fff;
 }
 /* 左侧导航 */
 
 .app-left {
-  width: 120px;
+  width: 170px;
   background-color: #fff;
   border-radius: 12px;
   box-shadow: 0 20px 27px rgba(0, 0, 0, 0.05);
@@ -26,9 +25,23 @@
   left: 0;
   z-index: 99;
   padding: 0 10px 20px 10px;
-  margin-left: 20px;
-  height: calc(100vh - 40px);
+  margin-left: 10px;
+  height: calc(100vh - 20px);
   overflow: auto;
+}
+.loading {
+  position: fixed;
+  z-index: 999;
+  width: 190px;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.65);
+  left: 0;
+  top: 0;
+}
+.ant-list-items {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .app-left-top {
@@ -43,9 +56,12 @@
 }
 
 .app-left .app-left-list {
-  margin-top: 123px;
+  margin-top: 113px;
+  padding-top: 8px;
 }
-
+.app-left .app-left-list .ant-typography {
+  text-align: center;
+}
 .app-left .ant-list-item-meta-title {
   display: flex;
   justify-content: center;
@@ -53,6 +69,8 @@
 
 .app-left .ant-list-item {
   padding: 12px 0;
+  width: 50%;
+  justify-content: center;
 }
 
 /*闪烁动画*/
@@ -81,24 +99,87 @@
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
   position: relative;
-  height: calc(100vh - 20px);
-  margin-left: 140px;
+  height: calc(100vh - 10px);
+  margin-left: 180px;
 }
 
 .app-right-top {
   width: 100%;
   border-radius: 12px;
-  height: calc(100vh - 210px);
+  height: calc(100vh - 170px);
   background-color: #fff;
 }
 
 .app-right-bottom {
-  margin-top: 20px;
   width: 100%;
-  padding: 16px;
+  padding: 6px;
   height: 150px;
   border-radius: 12px;
   overflow-y: auto;
   background-color: #fff;
   box-shadow: 0 20px 27px rgba(0, 0, 0, 0.05);
+}
+
+.sign-in {
+  padding: 0px 20px;
+}
+
+.sign-in .col-form .ant-switch {
+  margin-right: 5px;
+}
+
+.sign-in .ant-form-item-label {
+  line-height: 28px;
+  display: inline-block;
+  overflow: hidden;
+  line-height: 39.9999px;
+  white-space: nowrap;
+  text-align: left;
+  vertical-align: middle;
+}
+.sign-in .ant-form-item label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #161919;
+}
+.sign-in .col-img img {
+  width: 100%;
+  max-width: 500px;
+  margin: auto;
+  display: block;
+
+  @media (min-width: 992px) {
+    margin: 0;
+  }
+}
+
+.sign-in h1 {
+  font-weight: 700;
+  color: #141414;
+}
+
+.sign-in .font-regular {
+  font-weight: 400;
+  color: #8c8c8c;
+}
+
+.sign-in .ant-form-item {
+  box-sizing: border-box;
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 14px;
+  margin-bottom: 0;
+}
+
+.sign-in .ant-form-item .ant-form-row {
+  display: flex;
+  flex-direction: column;
+  height: 90px;
+}
+
+.sign-in .login-form-button {
+  margin-top: 20px;
+}
+
+.sign-in .ant-form-margin-offset {
+  height: 50px;
 }
